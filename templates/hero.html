@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTunes - Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'herostyle.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/" class="logo-link">
+            <img src="{% static 'pytunes-logo.svg' %}" alt="PyTunes Logo" class="logo">
+        </a>
+        <nav class="nav">
+            <a href="{% url 'user_login' %}" class="btn">Login</a>
+            <a href="{% url 'contact' %}" class="btn">Contact Us</a>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <section class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="{% static 'bg.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Welcome to PyTunes</h1>
+            <p>A modern music experience, crafted with simplicity.</p>
+            <a href="{% url 'user_login' %}" class="cta-btn">Start Listening</a>
+        </div>
+    </section>
+</body>
+</html>

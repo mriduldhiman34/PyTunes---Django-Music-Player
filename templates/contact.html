@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+    }
+    header {
+      background: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    header img.logo {
+      max-width: 200px;
+      height: auto;
+    }
+    header nav {
+      margin-top: 10px;
+    }
+    header nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .contacts {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      overflow-x: auto;
+    }
+    .contact-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 250px;
+      margin: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .contact-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .contact-card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.2em;
+    }
+    .contact-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .contact-card a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Logo instead of "My Website" -->
+    <img class="logo" src="{% static 'pytunes-logo.svg' %}" alt="Logo">
+    <nav>
+      <a href="{% url 'hero' %}">Home</a>
+      <a href="{% url 'contact' %}">Contact Us</a>
+    </nav>
+  </header>
+  
+  <div class="container">
+    <h2>Contact Us</h2>
+    <div class="contacts">
+      <!-- Contact 1 -->
+      <div class="contact-card">
+        <img src="{% static 'images/priyanka mam.jpeg' %}" alt="Prof. Priyanka Dhiman">
+        <h3>Prof. Priyanka Dhiman</h3>
+        <p>Group Guide</p>
+        <p><a href="mailto:priyankacse@gmail.com">priyankacse@gmail.com</a></p>
+        <p>+91 90154 37847</p>
+      </div>
+      <!-- Contact 2 -->
+      <div class="contact-card">
+        <img src="{% static 'images/mridul.jpg' %}" alt="Mridul Dhiman">
+        <h3>Mridul Dhiman</h3>
+        <p>Group Member</p>
+        <p><a href="mailto:mriduldhiman34@gmail.com">mriduldhiman34@gmail.com</a></p>
+        <p>+91 86270 33324</p>
+      </div>
+      <!-- Contact 3 -->
+      <div class="contact-card">
+        <img src="{% static 'images/sahil.png' %}" alt="Sahil Sharma">
+        <h3>Sahil Sharma</h3>
+        <p>Group Member</p>
+        <p><a href="mailto:sahilsharma@gmail.com">sahilsharma@gmail.com</a></p>
+        <p>+91 78763 14427</p>
+      </div>
+      <!-- Contact 4 -->
+      <div class="contact-card">
+        <img src="{% static 'images/rahul.png' %}" alt="Rahul Verma">
+        <h3>Rahul Verma</h3>
+        <p>Group Member</p>
+        <p><a href="mailto:rahulverma@gmail.com">rahulverma@gmail.com</a></p>
+        <p>+91 78765 75984</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

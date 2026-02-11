@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PyTunes - Web Player</title>
+  <!-- Bloxicons CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+  <!-- Font Awesome & Bootstrap -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <div id="root">
+    <!-- Menu Bar -->
+    <div id="menu-bar" class="menu-bar">
+      <!-- Removed logo here since it is now in header -->
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a class="active" href="{% url 'index' %}">
+              <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M448 463.746h-149.333v-149.333h-85.334v149.333h-149.333v-315.428l192-111.746 192 110.984v316.19z" fill="currentColor"></path>
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="#" id="searchToggle">
+              <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M349.714 347.937l93.714 109.969-16.254 13.969-93.969-109.969q-48.508 36.825-109.207 36.825-36.826 0-70.476-14.349t-57.905-38.603-38.603-57.905-14.349-70.476 14.349-70.476 38.603-57.905 57.905-38.603 70.476-14.349 70.476 14.349 57.905 38.603 38.603 57.905 14.349 70.476q0 37.841-14.73 71.619t-40.889 58.921zM224 377.397q43.428 0 80.254-21.461t58.286-58.286 21.461-80.254-21.461-80.254-58.286-58.285-80.254-21.46-80.254 21.46-58.285 58.285-21.46 80.254 21.46 80.254 58.285 58.286 80.254 21.461z" fill="currentColor" fill-rule="evenodd"></path>
+              </svg>
+              Search
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z" fill="currentColor"></path>
+              </svg>
+              Your Library
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="user-collection">
+        <ul>
+          <li>
+            <a href="#">
+              <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
+              Create Playlist
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-heart fa-lg" aria-hidden="true" style="color: red;"></i>
+              Liked Songs
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <div class="header-left">
+              <a href="{% url 'hero' %}">
+                <img src="{% static 'pytunes-logo.svg' %}" alt="PyTunes Logo" class="app-logo">
+              </a>
+            </div>
+            <div class="header-right">
+              <div class="hamburger">
+                <div id="bar1" class="bar1"></div>
+                <div id="bar2" class="bar2"></div>
+                <div id="bar3" class="bar3"></div>
+              </div>
+              <div class="dropdown">
+                <button id="profileBtn">
+                  <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> {{ request.user.username|default:"Guest" }}
+                  <i class="fa fa-caret-down" aria-hidden="true" id="caretIcon"></i>
+                </button>
+                <ul id="profileMenu" style="visibility: hidden;">
+                  <li><a href="{% url 'hero' %}">Log Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </header>
+          
+      <main>
+        <!-- Search Bar Above Suggested Songs -->
+        <div class="search-container" id="searchContainer" style="display: none;">
+          <input type="text" id="searchInput" placeholder="Search songs...">
+          <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <!-- Heading for Suggested Songs -->
+        <h3 class="section-heading">Suggested Songs</h3>
+        <!-- Suggested Songs in Square Tiles -->
+        <div class="recent-activity">
+          {% if suggested_songs %}
+            {% for song in suggested_songs %}
+              <div class="activity-info" data-video-id="{{ song.videoId }}">
+                <div class="img-div">
+                  <img src="{{ song.thumbnail }}" alt="{{ song.title }}">
+                </div>
+                <div class="song-info">
+                  <p class="track-name">{{ song.title }}</p>
+                  <p class="artist-name">{{ song.artist }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>{{ error|default:"No suggestions available right now." }}</p>
+          {% endif %}
+        </div>
+      </main>
+    </div>
+
+    <!-- Bottom Player -->
+    <div class="player-bar">
+      <div class="player-left">
+        <img src="{% static 'default-cover.jpg' %}" alt="Album Art" id="albumArt" class="album-art">
+        <div class="track-info">
+          <h3 id="songTitle">Select a Song</h3>
+          <p id="artist">-</p>
+        </div>
+      </div>
+      <div class="player-center">
+        <div class="player-controls">
+          <!-- Increased icon size to 28px -->
+          <button id="prevButton"><i class='bx bx-skip-previous' style="font-size:28px;"></i></button>
+          <button id="playButton"><i class='bx bx-play' style="font-size:28px;"></i></button>
+          <button id="nextButton"><i class='bx bx-skip-next' style="font-size:28px;"></i></button>
+          <button id="downloadButton"><i class='bx bx-download' style="font-size:28px;"></i></button>
+        </div>
+        <div class="progress-wrapper">
+          <span id="currentTime" class="time-stamp">0:00</span>
+          <div class="progress-container" id="progressContainer">
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <span id="duration" class="time-stamp">0:00</span>
+        </div>
+      </div>
+      <div class="player-right">
+        <i class="bx bx-volume-full" id="volumeIcon"></i>
+        <!-- Thinner slider -->
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="height:5px;">
+        <button id="queueToggle"><i class='bx bx-list-ul' style="font-size:28px;"></i></button>
+        <!-- Lyrics button using musical note icon -->
+        <button id="lyricsToggle" style="background:none; border:none;">
+          <i class='bx bx-music' style="font-size:28px; color:#fff;"></i>
+        </button>
+      </div>
+      <audio id="audioElement" preload="auto"></audio>
+    </div>
+
+    <!-- Queue Sidebar -->
+    <div class="queue-sidebar" id="queueSidebar" style="display: none;">
+      <h3>Queue</h3>
+      <ul class="queue-list" id="queueList"></ul>
+    </div>
+
+    <!-- Lyrics Modal -->
+    <div class="lyrics-modal" id="lyricsContainer" style="display: none;">
+      <div class="lyrics-content">
+        <!-- Fixed Close Icon at Top Right -->
+        <button id="closeLyrics" class="close-lyrics-btn">
+          <i class='bx bx-x' style="font-size:24px; color:#fff;"></i>
+        </button>
+        <h2>Lyrics</h2>
+        <p id="lyricsText">Loading lyrics...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
